@@ -32,9 +32,14 @@
     INPUT:  '/Users/user/Desktop/open-unmix/input/'
     OUTPUT: '/Users/user/Desktop/open-unmix/output/'
 
-## Dependencies
+## Packages
 
-    - PyTorch
-    - Torchaudio
-    - Certifi
-    - Open-Unmix
+    The packages are required to run the program and must be installed in order to run the code
+
+        run
+            pip install torch torchaudio certifi openunmix
+
+    - torch is PyTorch
+    - torchaudio is Torchaudio
+    - certifi is Certifi
+    - openunmix is Open-Unmix
