@@ -36,10 +36,27 @@
 
     The packages are required to run the program and must be installed in order to run the code
 
+    Make sure they are installed into ama_env/lib/python3.10/site-packages
+
+    For Core Code
+
         run
             pip install torch torchaudio certifi openunmix
 
-    - torch is PyTorch
-    - torchaudio is Torchaudio
-    - certifi is Certifi
-    - openunmix is Open-Unmix
+    - torch is PyTorch (for neural network)
+    - torchaudio is Torchaudio (for audio processing)
+    - certifi is Certifi (to verify SSL/TLS certificates)
+    - openunmix is Open-Unmix (for audio separation)
+
+    For Visualization
+
+        run
+            pip install librosa matplotlib
+
+    - librosa is librosa (for audio analysis)
+    - matplotlib is matplotlib (for creating static, animated, and interactive visualizations)
+
+    For Prototyping
+
+        run
+            pip install ipykernel (dependency for Jupiter notebook)
