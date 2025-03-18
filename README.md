@@ -27,10 +27,7 @@
 
 ## File Locations
 
-    Currently the location of the files will be
-
-    INPUT:  '/Users/user/Desktop/open-unmix/input/'
-    OUTPUT: '/Users/user/Desktop/open-unmix/output/'
+    File Location can be set by the user through ama_ui.py
 
 ## Packages
 
