@@ -1,11 +1,9 @@
 import os
+import torch
 import torchaudio
 import torchaudio.transforms as T
 
-# Importing from Main.py
-# from Main import Song_Name
-# from Main import Speed_factor
-
+import numpy as np
 
 
 def torchAU_Speed(
@@ -107,3 +105,61 @@ def torchAU_DynRange(
     print(f"Dynamic Range of {name_AudioFile} is {dynamic_range_dB} dB")
 
     return dynamic_range_dB
+
+def torchAU_Panning(
+        Song_name: str,
+    ):
+
+    # Naming the Audio File which needs separation
+    name_AudioFile = Song_name
+
+    # Define input and output paths
+    input_path = '/Users/aditya/Desktop/open-unmix/input/' + name_AudioFile + '.mp3' 
+    output_path = '/Users/aditya/Desktop/open-unmix/output/' + name_AudioFile + '/' + 'images'
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    # Load the stereo audio file
+    waveform, sample_rate = torchaudio.load(input_path) 
+
+    # Ensure the audio is stereo
+    if waveform.shape[0] != 2:
+        raise ValueError("The input audio must be a stereo signal with 2 channels.")
+
+    # Separate the channels: Left and Right
+    left_channel = waveform[0, :]
+    right_channel = waveform[1, :]
+
+    # Function to calculate the energy of each channel (RMS value)
+    def calculate_rms(signal):
+        return torch.sqrt(torch.mean(signal ** 2))
+
+    # Calculate RMS for each channel
+    left_rms = calculate_rms(left_channel)
+    right_rms = calculate_rms(right_channel)
+
+    # Function to estimate panning
+    def estimate_panning(left_rms, right_rms):
+        # Normalize the RMS values
+        total_rms = left_rms + right_rms
+        if total_rms == 0:
+            return 0.0  # No signal (centered or silent)
+        
+        # Calculate the panning ratio
+        pan_ratio = (left_rms - right_rms) / total_rms
+        return pan_ratio
+
+    # Estimate panning
+    pan_value = estimate_panning(left_rms, right_rms)
+
+    # Print the pan value
+    print(f"Estimated pan value: {pan_value:.2f}")
+    print("Interpretation:")
+    if pan_value < -0.5:
+        print("Instrument is mostly panned to the left.")
+    elif pan_value > 0.5:
+        print("Instrument is mostly panned to the right.")
+    else:
+        print("Instrument is panned close to the center.")
+
+    return pan_value
