@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-# Create the root window (but don't show it)
 # Function to select the input folder
 def select_input_folder():
     input_folder_path = filedialog.askdirectory(title="Select the Input Folder")
@@ -10,13 +9,14 @@ def select_input_folder():
 
     input_folder_var.set(input_folder_path)
     
-# Function to select the output file
-def select_output_file():
+# Function to select the output folder
+def select_output_folder():
     output_file_path = filedialog.askdirectory(title="Select the Output File")
     output_label.config(text=f"Output File: {output_file_path}")
 
     output_folder_var.set(output_file_path)
 
+# Function to select an audio file
 def select_audio_file():
     audio_file_path = filedialog.askopenfilename(title="Select the Audio File")
     audio_label.config(text=f"Audio File: {audio_file_path}")
@@ -27,7 +27,7 @@ def select_audio_file():
 # Function to break (close) the root window
 def break_window():
     root.quit()
-    root.destroy()  # This ends the main loop and closes the window
+    root.destroy()  
 
 
 # Create the root window
@@ -51,7 +51,7 @@ output_label = tk.Label(root, text="Output File: Not selected")
 output_label.pack(pady=10)
 
 # Add a button to select the output file
-output_button = tk.Button(root, text="Select Output File", command=select_output_file)
+output_button = tk.Button(root, text="Select Output File", command=select_output_folder)
 output_button.pack(pady=5)
 
 # Add a label to display the selected input folder
