@@ -44,19 +44,23 @@ def torchAU_Speed(
     print('Audio File has been successfully saved at ' + output_path + '/' + name_AudioFile + '.wav')
 
 def torchAU_LUFS(
-        Song_Name: str,
+        input_path: str,
+        # output_path: str,
+        # Song_Name: str,
         ):
 
     # Naming the Audio File which needs separation
-    name_AudioFile = Song_Name
+    # name_AudioFile = Song_Name
+    name_AudioFile = os.path.basename(input_path)
 
     # Define input and output paths
-    input_path = '/Users/aditya/Desktop/open-unmix/input/' + name_AudioFile + '.mp3' 
-    output_path = '/Users/aditya/Desktop/open-unmix/output/' + name_AudioFile  
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    # input_path = Song_path  
+    ip =  input_path 
+    # op = output_path + name_AudioFile  
+    # if not os.path.exists(op):
+    #     os.makedirs(op)
 
-    src = torchaudio.load(input_path)
+    src = torchaudio.load(ip)
     src_waveform = src[0]
     src_sample_rate = src[1]
 
@@ -66,22 +70,30 @@ def torchAU_LUFS(
 
     LUFS = loudness_sampleRate(audio_waveform)
 
-    print(f"LUFS: {LUFS}")
+    print(f"LUFS of {name_AudioFile} is {LUFS} dB")
+
+    LUFS_int = (f"{LUFS:.2f}")
+
+    return LUFS_int
 
 def torchAU_DynRange(
-        Song_Name: str,
+        input_path: str,
+        # output_path: str,
+        # Song_Name: str,
     ):
 
     # Naming the Audio File which needs separation
-    name_AudioFile = Song_Name
+    # name_AudioFile = Song_Name
+    name_AudioFile = os.path.basename(input_path)
 
-    # Define input and output paths
-    input_path = '/Users/aditya/Desktop/open-unmix/input/' + name_AudioFile + '.mp3' 
-    output_path = '/Users/aditya/Desktop/open-unmix/output/' + name_AudioFile  
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
 
-    src = torchaudio.load(input_path)
+    # # Define input and output paths
+    ip =  input_path # + name_AudioFile + '.mp3'  
+    # op = output_path + name_AudioFile  
+    # if not os.path.exists(op):
+    #     os.makedirs(op)    
+
+    src = torchaudio.load(ip)
     src_waveform = src[0]
     src_sample_rate = src[1]
 
@@ -104,23 +116,30 @@ def torchAU_DynRange(
 
     print(f"Dynamic Range of {name_AudioFile} is {dynamic_range_dB} dB")
 
-    return dynamic_range_dB
+    dynamic_range_dB_int = (f"{dynamic_range_dB:.2f}")
+
+    return dynamic_range_dB_int
 
 def torchAU_Panning(
-        Song_name: str,
+        input_path: str,
+        # output_path: str,
+        # Song_Name: str,
     ):
 
-    # Naming the Audio File which needs separation
-    name_AudioFile = Song_name
+     # Naming the Audio File which needs separation
+    # name_AudioFile = Song_name
+    name_AudioFile = os.path.basename(input_path)
 
     # Define input and output paths
-    input_path = '/Users/aditya/Desktop/open-unmix/input/' + name_AudioFile + '.mp3' 
-    output_path = '/Users/aditya/Desktop/open-unmix/output/' + name_AudioFile + '/' + 'images'
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    # input_path = '/Users/aditya/Desktop/open-unmix/input/' + name_AudioFile + '.mp3' 
+    # output_path = '/Users/aditya/Desktop/open-unmix/output/' + name_AudioFile + '/' + 'images'
+    # if not os.path.exists(output_path):
+    #     os.makedirs(output_path)
+
+    ip = input_path
 
     # Load the stereo audio file
-    waveform, sample_rate = torchaudio.load(input_path) 
+    waveform, sample_rate = torchaudio.load(ip) 
 
     # Ensure the audio is stereo
     if waveform.shape[0] != 2:
@@ -153,7 +172,7 @@ def torchAU_Panning(
     pan_value = estimate_panning(left_rms, right_rms)
 
     # Print the pan value
-    print(f"Estimated pan value: {pan_value:.2f}")
+    print(f"Estimated pan value of {name_AudioFile} is {pan_value:.2f}")
     print("Interpretation:")
     if pan_value < -0.5:
         print("Instrument is mostly panned to the left.")
@@ -162,4 +181,6 @@ def torchAU_Panning(
     else:
         print("Instrument is panned close to the center.")
 
-    return pan_value
+    pan_value_int = (f"{pan_value:.2f}")  
+
+    return pan_value_int
