@@ -57,3 +57,9 @@
 
         run
             pip install ipykernel (dependency for Jupiter notebook)
+
+    For User Interface
+
+        run
+            pip install customtkinter
+
